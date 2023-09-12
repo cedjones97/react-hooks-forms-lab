@@ -11,18 +11,27 @@ function ShoppingList({ items, onItemFormSubmit }) {
     setSelectedCategory(event.target.value);
   }
 
-  const itemsToDisplay = items.filter((item) => {
-    if (selectedCategory === "All") return true;
+  function handleSearch(event){
+    setSearch(event.target.value);
+  }
 
-    return item.category === selectedCategory;
-  });
+ 
+  const itemsToDisplay = items
+  // category
+  .filter(
+    (item) => selectedCategory === "All" || item.category === selectedCategory
+  )
+  // search term
+  .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+
+
 
   return (
     <div className="ShoppingList">
       <ItemForm onItemFormSubmit={onItemFormSubmit} />
       <Filter
         search={search}
-        onSearchChange={setSearch}
+        onSearchChange={handleSearch}
         onCategoryChange={handleCategoryChange}
       />
       <ul className="Items">
